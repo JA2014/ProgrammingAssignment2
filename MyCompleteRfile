@@ -1,0 +1,48 @@
+This the file containing my code for this assignement 2
+## In this assignments, there are 2 functions. The first one creates a special “matrix” object that can cache its inverse;
+## the second one computes the inverse of the special "matrix" returned by makeCacheMatrix. If the inverse has already been calculated 
+## (and the matrix has not changed), then the cachesolve should retrieve the inverse from the cache.
+
+## Write a short comment describing the first function 'makeCacheMatrix'
+## MakeCacheMatrix:this function creates a special “matrix” object that can cache its inverse.                        						     
+    							
+makeCacheMatrix <- function(x = matrix()) {
+  cacheMatrix <- NULL    # assign NULL to an object cacheMatrix
+  set <- function(y) {   # assign a value to an objects in an environment  
+     			       # that is different from the current environment
+        x 		 <<- y
+        cacheMatrix <<- NULL
+   }
+   get <- function() x	# this function get the value of the matrix 
+   setsolve <- function(solve) cacheMatrix <<- solve #this function set  
+							 #the value of the inverse matrix in the cache
+   getsolve <- function() cacheMatrix      # this function get the value of the 
+					             # inverse matrix from the cache   
+    list(set = set, get = get,
+             setsolve = setsolve,
+             getsolve = getsolve)
+}
+
+
+## Write a short comment describing the second function 'cacheSolve'
+## cacheSolve: this function computes the inverse of the special "matrix" returned by makeCacheMatrix.
+
+cacheSolve <- function(x, ...) {
+        ## Return a matrix that is the inverse of 'x'
+     cacheMatrix <- x$getsolve()
+     if(!is.null(cacheMatrix)) { # checks to see if the inverse matrix  has 
+				         # already been calculated.If so, it gets the 
+				         # value from the cache and return it.
+            message("getting cached data")
+            return(cacheMatrix)
+     }
+     data <- x$get()		  # this portion calculates the inverse of the matrix and sets the value in the cache via the setmean function	
+     cacheMatrix <- solve(data, ...)
+     x$setSolve(cacheMatrix)
+     cacheMatrix
+}
+
+
+
+
+
